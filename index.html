@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Jurnal Tendik SMKN 1 Jepara</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="mark" aria-hidden="true">TU</div>
+    <div class="grow">
+      <h1>Jurnal Kegiatan Tenaga Kependidikan</h1>
+      <p>SMK Negeri 1 Jepara · Tahun Pelajaran 2026/2027 · SK Nomor 800/035/2026</p>
+    </div>
+    <span class="who" id="who" hidden></span>
+    <span class="conn" id="conn">memuat…</span>
+    <button class="btn alt sm" id="b-out" data-a="logout" hidden>Keluar</button>
+  </header>
+
+  <section class="login" id="login">
+    <div class="lcard">
+      <h2>Masuk</h2>
+      <div class="seg">
+        <button type="button" data-a="lrole" data-r="member" aria-pressed="true">Anggota</button>
+        <button type="button" data-a="lrole" data-r="admin" aria-pressed="false">Admin</button>
+      </div>
+      <form id="f-login" autocomplete="off">
+        <div id="lm"><label class="lbl" for="lNama">Nama</label>
+          <select id="lNama"><option value="">Pilih nama Anda</option></select></div>
+        <div id="la" hidden><label class="lbl" for="lMail">Email</label>
+          <input type="text" id="lMail" inputmode="email" placeholder="Email admin"></div>
+        <label class="lbl" for="lPass">Password</label>
+        <input type="password" id="lPass" autocomplete="off">
+        <div class="lerr" id="lerr" hidden></div>
+        <button class="btn" type="submit" id="b-login">Masuk</button>
+      </form>
+      <p>Password awal anggota adalah 6 digit terakhir NIP. Ganti di tab Akun setelah masuk.</p>
+    </div>
+  </section>
+
+  <div id="main" hidden>
+  <nav class="tabs" role="tablist">
+    <button role="tab" data-a="tab" data-t="isi" aria-selected="true">Isi Jurnal</button>
+    <button role="tab" data-a="tab" data-t="riwayat" aria-selected="false">Riwayat &amp; Unduh</button>
+    <button role="tab" data-a="tab" data-t="verif" aria-selected="false" id="tab-verif" hidden>Verifikasi Atasan</button>
+    <button role="tab" data-a="tab" data-t="lap" aria-selected="false" id="tab-lap" hidden>Laporan Bulanan</button>
+    <button role="tab" data-a="tab" data-t="lapm" aria-selected="false" id="tab-lapm" hidden>Laporan Saya</button>
+    <button role="tab" data-a="tab" data-t="akun" aria-selected="false">Akun</button>
+  </nav>
+
+  <section class="panel" id="p-isi">
+    <div id="banner" class="banner" hidden></div>
+    <fieldset id="fs">
+      <div class="step">
+        <div class="sh"><span class="n">1</span><h2>Tanggal dan nama</h2><span class="hint">sesuai akun yang masuk</span></div>
+        <div class="row">
+          <div style="max-width:240px"><label class="lbl" for="tgl">Tanggal kegiatan</label><input type="date" id="tgl"></div>
+        </div>
+        <div class="names" id="names"></div>
+        <div class="kal-h"><span id="kal-t">Isian bulan ini</span><span id="kal-p"></span></div>
+        <div class="kal" id="kal"></div>
+        <div class="legend">
+          <span><i style="background:var(--draft-soft)"></i>Draf</span>
+          <span><i style="background:var(--wait-soft)"></i>Menunggu verifikasi</span>
+          <span><i style="background:var(--ok-soft)"></i>Disetujui</span>
+          <span><i style="background:var(--bad-soft)"></i>Perlu perbaikan</span>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="sh"><span class="n">2</span><h2>Job yang dikerjakan hari ini</h2><span class="hint">boleh lebih dari satu</span></div>
+        <div class="chips" id="jobs"></div>
+      </div>
+
+      <div class="step">
+        <div class="sh"><span class="n">3</span><h2>Kegiatan</h2><span class="hint">centang yang sudah selesai</span></div>
+        <div id="tasks"></div>
+      </div>
+
+      <div class="step">
+        <div class="sh"><span class="n">4</span><h2>Foto kegiatan</h2><span class="hint" id="fhint">maksimal 1 foto</span></div>
+        <div class="drop">
+          <label class="btn alt" for="foto" style="display:inline-block">Pilih foto</label>
+          <input type="file" id="foto" accept="image/*">
+          <span style="color:var(--muted);font-size:13px">Foto dikecilkan otomatis agar cepat terkirim.</span>
+        </div>
+        <div class="pg" id="pg"></div>
+      </div>
+
+      <div class="step">
+        <div class="sh"><span class="n">5</span><h2>Catatan dan kirim</h2></div>
+        <label class="lbl" for="cat">Catatan umum (opsional)</label>
+        <textarea id="cat" rows="3" maxlength="600" placeholder="Kendala, tindak lanjut, atau hal lain untuk atasan"></textarea>
+      </div>
+    </fieldset>
+    <div class="actions">
+      <button class="btn alt" data-a="save" data-send="0" id="b-draft">Simpan draf</button>
+      <button class="btn" data-a="save" data-send="1" id="b-send">Kirim ke atasan</button>
+    </div>
+  </section>
+
+  <section class="panel" id="p-riwayat" hidden>
+    <div class="bar">
+      <div><label class="lbl" for="fFrom">Dari tanggal</label><input type="date" id="fFrom"></div>
+      <div><label class="lbl" for="fTo">Sampai tanggal</label><input type="date" id="fTo"></div>
+      <div><label class="lbl" for="fSid">Pegawai</label><select id="fSid"></select></div>
+      <div><label class="lbl" for="fSt">Status</label>
+        <select id="fSt"><option value="all">Semua</option><option value="draft">Draf</option><option value="menunggu">Menunggu verifikasi</option><option value="disetujui">Disetujui</option><option value="ditolak">Perlu perbaikan</option></select></div>
+    </div>
+    <div class="eact" style="margin:0 0 12px">
+      <button type="button" class="btn alt sm" data-a="lq" data-r="today">Hari ini</button>
+      <button type="button" class="btn alt sm" data-a="lq" data-r="7">7 hari terakhir</button>
+      <button type="button" class="btn alt sm" data-a="lq" data-r="bulan">Bulan ini</button>
+    </div>
+    <div class="sum" id="sum"></div>
+    <div id="list"></div>
+
+    <div class="exp" id="exp" hidden>
+      <h3>Unduh Excel</h3>
+      <p>Berisi jurnal yang sudah dikirim, lengkap dengan foto dan kolom tanda tangan Kepala Sekolah dan Plt. Kasubag TU.</p>
+      <div class="row">
+        <div><label class="lbl" for="xFrom">Dari tanggal</label><input type="date" id="xFrom"></div>
+        <div><label class="lbl" for="xTo">Sampai tanggal</label><input type="date" id="xTo"></div>
+        <div><label class="lbl" for="xSid">Pegawai</label><select id="xSid"></select></div>
+      </div>
+      <div class="eact" style="margin-top:0">
+        <label class="chk"><input type="checkbox" id="xFoto" checked> Sertakan foto</label>
+        <button class="btn" data-a="export" id="b-exp" style="margin-left:auto">Unduh Excel</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-verif" hidden>
+    <div class="bar">
+      <div><label class="lbl" for="vWho">Diverifikasi oleh</label>
+        <select id="vWho">
+          <option>Dr. Sugiyanto, S.Pd., M.Pd. (Kepala Sekolah)</option>
+          <option>Taufik Fadholi, S.Pd., M.Pd. (Plt. Kasubag TU)</option>
+        </select></div>
+      <div><label class="lbl" for="vFrom">Dari tanggal</label><input type="date" id="vFrom"></div>
+      <div><label class="lbl" for="vTo">Sampai tanggal</label><input type="date" id="vTo"></div>
+      <div><label class="lbl" for="vSt">Tampilkan</label>
+        <select id="vSt"><option value="menunggu">Menunggu verifikasi</option><option value="disetujui">Disetujui</option><option value="ditolak">Perlu perbaikan</option><option value="all">Semua terkirim</option></select></div>
+    </div>
+    <div class="eact" style="margin:0 0 12px">
+      <button type="button" class="btn alt sm" data-a="lq" data-r="today">Hari ini</button>
+      <button type="button" class="btn alt sm" data-a="lq" data-r="7">7 hari terakhir</button>
+      <button type="button" class="btn alt sm" data-a="lq" data-r="bulan">Bulan ini</button>
+    </div>
+    <div class="eact" style="margin:0 0 12px"><button class="btn ok sm" data-a="apprall" id="b-all">Setujui semua yang menunggu</button><span id="vinfo" style="color:var(--muted);font-size:13px"></span></div>
+    <div id="vlist"></div>
+  </section>
+
+  <section class="panel" id="p-lap" hidden>
+    <div class="bar">
+      <div><label class="lbl" for="lFrom">Dari tanggal</label><input type="date" id="lFrom"></div>
+      <div><label class="lbl" for="lTo">Sampai tanggal</label><input type="date" id="lTo"></div>
+      <div style="max-width:140px"><label class="lbl" for="lHK">Hari kerja</label><input type="number" id="lHK" min="1" max="366" value="22"></div>
+      <div style="flex:none"><button class="btn" id="b-lap" data-a="explap">Unduh Laporan Excel</button></div>
+    </div>
+    <p style="color:var(--muted);font-size:13px;margin:0 0 12px">Pilih tanggal awal dan akhir laporan. Hari kerja dihitung Senin sampai Jumat tanpa memperhitungkan hari libur. Ubah angkanya jika ada libur. Laporan memuat jurnal yang sudah dikirim.</p>
+    <div class="tiles" id="lapT"></div>
+    <div class="tw"><table class="t" id="lapTbl"></table></div>
+  </section>
+
+  <section class="panel" id="p-lapm" hidden>
+    <div class="bar">
+      <div><label class="lbl" for="mFrom">Dari tanggal</label><input type="date" id="mFrom"></div>
+      <div><label class="lbl" for="mTo">Sampai tanggal</label><input type="date" id="mTo"></div>
+      <div style="max-width:140px"><label class="lbl" for="mHK">Hari kerja</label><input type="number" id="mHK" min="1" max="366" value="22"></div>
+    </div>
+    <div class="tiles" id="mapT"></div>
+    <div class="tw"><table class="t" id="lapmTbl"></table></div>
+  </section>
+
+  <section class="panel" id="p-akun" hidden>
+    <div id="pwbanner" class="banner" hidden><span class="pill st-menunggu">Perlu diganti</span><span>Password Anda masih bawaan. Ganti sekarang agar akun tidak dipakai orang lain.</span></div>
+    <div class="exp" style="margin-top:0">
+      <h3>Ganti password</h3>
+      <p id="akunwho"></p>
+      <form id="f-pw" autocomplete="off">
+        <div class="row">
+          <div><label class="lbl" for="pwOld">Password lama</label><input type="password" id="pwOld"></div>
+          <div><label class="lbl" for="pwNew">Password baru</label><input type="password" id="pwNew"></div>
+          <div><label class="lbl" for="pwNew2">Ulangi password baru</label><input type="password" id="pwNew2"></div>
+        </div>
+        <button class="btn" type="submit">Simpan password</button>
+      </form>
+    </div>
+    <div class="exp" id="kelola" hidden>
+      <h3>Kelola akun anggota</h3>
+      <p>Reset mengembalikan password anggota ke 6 digit terakhir NIP.</p>
+      <div id="akunlist"></div>
+    </div>
+  </section>
+  </div>
+</div>
+
+<div class="lb" id="lb" hidden><button class="btn" data-a="lbx">Tutup</button><img id="lbi" alt="Foto kegiatan"></div>
+<div id="toast" hidden></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
+<script src="config.js"></script>
+<script src="storage.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
