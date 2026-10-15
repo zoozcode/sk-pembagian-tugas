@@ -35,12 +35,17 @@
           <select id="lNama"><option value="">Pilih nama Anda</option></select></div>
         <div id="la" hidden><label class="lbl" for="lMail">Email</label>
           <input type="text" id="lMail" inputmode="email" placeholder="Email admin"></div>
-        <label class="lbl" for="lPass">Password</label>
+        <label class="lbl" for="lPass" id="lPassLbl">Password</label>
         <input type="password" id="lPass" autocomplete="off">
+        <div id="lnew" hidden><label class="lbl" for="lPass2">Ulangi password baru</label>
+          <input type="password" id="lPass2" autocomplete="off"></div>
+        <div class="lhint" id="lnewmsg" hidden>Akun ini belum punya password. Buat password Anda sendiri (minimal 6 karakter). Password tersimpan, jadi lain kali masuk dengan password ini.</div>
         <div class="lerr" id="lerr" hidden></div>
         <button class="btn" type="submit" id="b-login">Masuk</button>
       </form>
-      <p>Password awal anggota adalah 6 digit terakhir NIP. Ganti di tab Akun setelah masuk.</p>
+      <button type="button" class="lnk" data-a="lupa">Lupa password?</button>
+      <p id="lhelp" hidden>Hubungi admin untuk reset. Setelah direset, Anda membuat password baru saat masuk berikutnya.</p>
+      <p>Masuk pertama kali: pilih nama, lalu buat password sendiri. Password itu dipakai untuk masuk berikutnya.</p>
     </div>
   </section>
 
@@ -195,7 +200,7 @@
     </div>
     <div class="exp" id="kelola" hidden>
       <h3>Kelola akun anggota</h3>
-      <p>Reset mengembalikan password anggota ke 6 digit terakhir NIP.</p>
+      <p>Reset menghapus password anggota; anggota membuat password baru saat masuk berikutnya.</p>
       <div id="akunlist"></div>
     </div>
   </section>
