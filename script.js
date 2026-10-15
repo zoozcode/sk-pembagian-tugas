@@ -1030,10 +1030,10 @@
     });
   async function compress(file) {
     const img = await loadImg(await readFile(file));
-    let max = 1000,
-      q = 0.72,
+    let max = 800,
+      q = 0.62,
       out = "";
-    for (let k = 0; k < 7; k++) {
+    for (let k = 0; k < 9; k++) {
       const sc = Math.min(1, max / Math.max(img.width, img.height));
       const c = document.createElement("canvas");
       c.width = Math.max(1, Math.round(img.width * sc));
@@ -1043,9 +1043,9 @@
       x.fillRect(0, 0, c.width, c.height);
       x.drawImage(img, 0, 0, c.width, c.height);
       out = c.toDataURL("image/jpeg", q);
-      if (out.length < 190000) break;
-      max *= 0.82;
-      q = Math.max(0.5, q - 0.05);
+      if (out.length < 60000) break;
+      max *= 0.85;
+      q = Math.max(0.4, q - 0.05);
     }
     return out;
   }
