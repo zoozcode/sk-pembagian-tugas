@@ -1675,15 +1675,15 @@
       ws.mergeCells("C" + (r + 1) + ":E" + (r + 1));
       ws.mergeCells("H" + (r + 1) + ":I" + (r + 1));
       put("C", r + 1, "Kepala SMKN 1 Jepara");
-      put("H", r + 1, "Plt. Kasubag TU");
+      put("H", r + 1, "");
       ws.mergeCells("C" + (r + 5) + ":E" + (r + 5));
       ws.mergeCells("H" + (r + 5) + ":I" + (r + 5));
       ws.mergeCells("C" + (r + 6) + ":E" + (r + 6));
       ws.mergeCells("H" + (r + 6) + ":I" + (r + 6));
       put("C", r + 5, "Dr. SUGIYANTO, S.Pd., M.Pd.", true);
-      put("H", r + 5, "TAUFIK FADHOLI, S.Pd., M.Pd.", true);
+      put("H", r + 5, "POPI LIA MARISA, S.Kom", true);
       put("C", r + 6, "NIP. 19700510 199702 1 003");
-      put("H", r + 6, "NIP. 19861227 200902 1 001");
+      put("H", r + 6, "NIP. 19830705 200902 2 008");
       if (mode === "bulan") {
         const rs = wb.addWorksheet("Rekap");
         [5, 28, 24, 28, 14, 14, 14, 16].forEach((w, i) => {
@@ -2304,9 +2304,9 @@
         };
         [
           [0, "Mengetahui,", "Jepara, " + midDate(TODAY)],
-          [1, "Kepala SMKN 1 Jepara", "Plt. Kasubag TU"],
-          [5, "Dr. SUGIYANTO, S.Pd., M.Pd.", "TAUFIK FADHOLI, S.Pd., M.Pd."],
-          [6, "NIP. 19700510 199702 1 003", "NIP. 19861227 200902 1 001"],
+          [1, "Kepala SMKN 1 Jepara", ""],
+          [5, "Dr. SUGIYANTO, S.Pd., M.Pd.", "POPI LIA MARISA, S.Kom"],
+          [6, "NIP. 19700510 199702 1 003", "NIP. 19830705 200902 2 008"],
         ].forEach((x) => {
           ws.mergeCells(a1 + (rw + x[0]) + ":" + a2 + (rw + x[0]));
           ws.mergeCells(b1 + (rw + x[0]) + ":" + b2 + (rw + x[0]));

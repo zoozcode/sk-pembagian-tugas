@@ -11,5 +11,5 @@ window.JT_FIREBASE = {
   projectId: "jurnal-tendik-958f2",
   storageBucket: "jurnal-tendik-958f2.firebasestorage.app",
   messagingSenderId: "1071426666146",
-  appId: "1:1071426666146:web:1f3fb5e20cda0cac9f61fb"
+  appId: "1:1071426666146:web:1f3fb5e20cda0cac9f61fb",
 };
