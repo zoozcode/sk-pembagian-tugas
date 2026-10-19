@@ -241,45 +241,7 @@
         </section>
 
         <section class="panel" id="p-riwayat" hidden>
-          <div class="bar">
-            <div>
-              <label class="lbl" for="fFrom">Dari tanggal</label
-              ><input type="date" id="fFrom" />
-            </div>
-            <div>
-              <label class="lbl" for="fTo">Sampai tanggal</label
-              ><input type="date" id="fTo" />
-            </div>
-            <div>
-              <label class="lbl" for="fSid">Pegawai</label
-              ><select id="fSid"></select>
-            </div>
-            <div>
-              <label class="lbl" for="fSt">Status</label>
-              <select id="fSt">
-                <option value="all">Semua</option>
-                <option value="draft">Draf</option>
-                <option value="menunggu">Menunggu verifikasi</option>
-                <option value="disetujui">Disetujui</option>
-                <option value="ditolak">Perlu perbaikan</option>
-              </select>
-            </div>
-          </div>
-          <div class="eact" style="margin: 0 0 12px">
-            <button type="button" class="btn alt sm" data-a="lq" data-r="today">
-              Hari ini
-            </button>
-            <button type="button" class="btn alt sm" data-a="lq" data-r="7">
-              7 hari terakhir
-            </button>
-            <button type="button" class="btn alt sm" data-a="lq" data-r="bulan">
-              Bulan ini
-            </button>
-          </div>
-          <div class="sum" id="sum"></div>
-          <div id="list"></div>
-
-          <div class="exp" id="exp" hidden>
+          <div class="exp" id="exp" hidden style="margin: 0 0 16px">
             <h3>Unduh Excel</h3>
             <p>
               Berisi jurnal yang sudah dikirim, lengkap dengan foto dan kolom
@@ -298,8 +260,39 @@
                 <label class="lbl" for="xSid">Pegawai</label
                 ><select id="xSid"></select>
               </div>
+              <div>
+                <label class="lbl" for="fSt">Status</label>
+                <select id="fSt">
+                  <option value="all">Semua</option>
+                  <option value="draft">Draf</option>
+                  <option value="menunggu">Menunggu verifikasi</option>
+                  <option value="disetujui">Disetujui</option>
+                  <option value="ditolak">Perlu perbaikan</option>
+                </select>
+              </div>
             </div>
-            <div class="eact" style="margin-top: 0">
+            <div class="eact" style="margin: 0 0 4px">
+              <button
+                type="button"
+                class="btn alt sm"
+                data-a="lq"
+                data-r="today"
+              >
+                Hari ini
+              </button>
+              <button type="button" class="btn alt sm" data-a="lq" data-r="7">
+                7 hari terakhir
+              </button>
+              <button
+                type="button"
+                class="btn alt sm"
+                data-a="lq"
+                data-r="bulan"
+              >
+                Bulan ini
+              </button>
+            </div>
+            <div class="eact">
               <label class="chk"
                 ><input type="checkbox" id="xFoto" checked /> Sertakan
                 foto</label
@@ -314,55 +307,82 @@
               </button>
             </div>
           </div>
+          <div class="sum" id="sum"></div>
+          <div id="list"></div>
+          <div class="pager" id="pager" hidden></div>
         </section>
 
         <section class="panel" id="p-verif" hidden>
-          <div class="bar">
-            <div>
-              <label class="lbl" for="vWho">Diverifikasi oleh</label>
-              <select id="vWho">
-                <option>Dr. Sugiyanto, S.Pd., M.Pd. (Kepala Sekolah)</option>
-                <option>Popi Lia Marisa, S.Kom</option>
-              </select>
+          <div class="exp" style="margin: 0 0 16px">
+            <h3>Verifikasi Atasan</h3>
+            <p>
+              Pilih penanda tangan, periode, dan status jurnal yang ingin
+              ditampilkan, lalu setujui atau minta perbaikan.
+            </p>
+            <div class="row">
+              <div>
+                <label class="lbl" for="vWho">Diverifikasi oleh</label>
+                <select id="vWho">
+                  <option>Dr. Sugiyanto, S.Pd., M.Pd. (Kepala Sekolah)</option>
+                  <option>Popi Lia Marisa, S.Kom</option>
+                </select>
+              </div>
+              <div>
+                <label class="lbl" for="vFrom">Dari tanggal</label
+                ><input type="date" id="vFrom" />
+              </div>
+              <div>
+                <label class="lbl" for="vTo">Sampai tanggal</label
+                ><input type="date" id="vTo" />
+              </div>
+              <div>
+                <label class="lbl" for="vSt">Tampilkan</label>
+                <select id="vSt">
+                  <option value="menunggu">Menunggu verifikasi</option>
+                  <option value="disetujui">Disetujui</option>
+                  <option value="ditolak">Perlu perbaikan</option>
+                  <option value="all">Semua terkirim</option>
+                </select>
+              </div>
             </div>
-            <div>
-              <label class="lbl" for="vFrom">Dari tanggal</label
-              ><input type="date" id="vFrom" />
+            <div class="eact" style="margin: 0 0 4px">
+              <button
+                type="button"
+                class="btn alt sm"
+                data-a="lq"
+                data-r="today"
+              >
+                Hari ini
+              </button>
+              <button type="button" class="btn alt sm" data-a="lq" data-r="7">
+                7 hari terakhir
+              </button>
+              <button
+                type="button"
+                class="btn alt sm"
+                data-a="lq"
+                data-r="bulan"
+              >
+                Bulan ini
+              </button>
             </div>
-            <div>
-              <label class="lbl" for="vTo">Sampai tanggal</label
-              ><input type="date" id="vTo" />
+            <div class="eact">
+              <span
+                id="vinfo"
+                style="color: var(--muted); font-size: 13px"
+              ></span
+              ><button
+                class="btn ok"
+                data-a="apprall"
+                id="b-all"
+                style="margin-left: auto"
+              >
+                Setujui semua yang menunggu
+              </button>
             </div>
-            <div>
-              <label class="lbl" for="vSt">Tampilkan</label>
-              <select id="vSt">
-                <option value="menunggu">Menunggu verifikasi</option>
-                <option value="disetujui">Disetujui</option>
-                <option value="ditolak">Perlu perbaikan</option>
-                <option value="all">Semua terkirim</option>
-              </select>
-            </div>
-          </div>
-          <div class="eact" style="margin: 0 0 12px">
-            <button type="button" class="btn alt sm" data-a="lq" data-r="today">
-              Hari ini
-            </button>
-            <button type="button" class="btn alt sm" data-a="lq" data-r="7">
-              7 hari terakhir
-            </button>
-            <button type="button" class="btn alt sm" data-a="lq" data-r="bulan">
-              Bulan ini
-            </button>
-          </div>
-          <div class="eact" style="margin: 0 0 12px">
-            <button class="btn ok sm" data-a="apprall" id="b-all">
-              Setujui semua yang menunggu</button
-            ><span
-              id="vinfo"
-              style="color: var(--muted); font-size: 13px"
-            ></span>
           </div>
           <div id="vlist"></div>
+          <div class="pager" id="vpager" hidden></div>
         </section>
 
         <section class="panel" id="p-lap" hidden>

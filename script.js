@@ -1260,7 +1260,7 @@
     return h;
   }
   function renderRiwayat() {
-    const fs = $("#fSid").value || "all",
+    const fs = $("#xSid").value || "all",
       ft = $("#fSt").value || "all";
     let all =
       S.role === "member"
@@ -1280,14 +1280,24 @@
     rows.sort(
       (a, b) => b.tgl.localeCompare(a.tgl) || BY[a.sid].ord - BY[b.sid].ord,
     );
+    const key = [fs, ft, $("#xFrom").value, $("#xTo").value].join("|");
+    if (key !== S.pgKey) {
+      S.pgKey = key;
+      S.pgR = 1;
+    }
+    const pages = Math.max(1, Math.ceil(rows.length / PER));
+    S.pgR = Math.min(Math.max(1, S.pgR || 1), pages);
     if (!rows.length) {
       $("#list").innerHTML =
         '<div class="empty">Belum ada jurnal untuk filter ini. Isian yang sudah dikirim akan tampil di sini.</div>';
+      renderPager(0, 1, 1);
       return;
     }
+    const start = (S.pgR - 1) * PER,
+      part = rows.slice(start, start + PER);
     let last = "",
       h = "";
-    rows.forEach((j) => {
+    part.forEach((j) => {
       if (j.tgl !== last) {
         h += `<div class="dgroup">${longDate(j.tgl)}</div>`;
         last = j.tgl;
@@ -1295,6 +1305,36 @@
       h += entryHtml(j, "riwayat");
     });
     keepOpen("#list", h);
+    renderPager(rows.length, S.pgR, pages);
+  }
+  const PER = 10;
+  function renderPager(total, cur, pages, kind) {
+    kind = kind || "r";
+    const el = $(kind === "v" ? "#vpager" : "#pager");
+    if (total <= PER) {
+      el.hidden = true;
+      el.innerHTML = "";
+      return;
+    }
+    const nums = [];
+    for (let p = 1; p <= pages; p++) {
+      if (p === 1 || p === pages || Math.abs(p - cur) <= 1) nums.push(p);
+      else if (nums[nums.length - 1] !== "…") nums.push("…");
+    }
+    const from = (cur - 1) * PER + 1,
+      to = Math.min(total, cur * PER);
+    el.innerHTML =
+      `<div class="info">Menampilkan ${from}-${to} dari ${total} jurnal</div>` +
+      `<button type="button" class="btn alt sm" data-a="pg" data-k="${kind}" data-p="${cur - 1}" ${cur <= 1 ? "disabled" : ""}>Sebelumnya</button>` +
+      nums
+        .map((p) =>
+          p === "…"
+            ? '<span class="dots">…</span>'
+            : `<button type="button" class="btn alt sm" data-a="pg" data-k="${kind}" data-p="${p}" ${p === cur ? 'aria-current="page"' : ""}>${p}</button>`,
+        )
+        .join("") +
+      `<button type="button" class="btn alt sm" data-a="pg" data-k="${kind}" data-p="${cur + 1}" ${cur >= pages ? "disabled" : ""}>Berikutnya</button>`;
+    el.hidden = false;
   }
   function renderVerif() {
     if (S.role !== "admin") return;
@@ -1322,14 +1362,24 @@
     $("#b-all").textContent = S.confirmAll
       ? "Ya, setujui " + waiting + " jurnal"
       : "Setujui semua yang menunggu";
+    const key = [ft, $("#vFrom").value, $("#vTo").value].join("|");
+    if (key !== S.pgVKey) {
+      S.pgVKey = key;
+      S.pgV = 1;
+    }
+    const pages = Math.max(1, Math.ceil(rows.length / PER));
+    S.pgV = Math.min(Math.max(1, S.pgV || 1), pages);
     if (!rows.length) {
       $("#vlist").innerHTML =
         '<div class="empty">Tidak ada jurnal pada daftar ini.</div>';
+      renderPager(0, 1, 1, "v");
       return;
     }
+    const start = (S.pgV - 1) * PER,
+      part = rows.slice(start, start + PER);
     let last = "",
       h = "";
-    rows.forEach((j) => {
+    part.forEach((j) => {
       if (j.tgl !== last) {
         h += `<div class="dgroup">${longDate(j.tgl)}</div>`;
         last = j.tgl;
@@ -1337,6 +1387,7 @@
       h += entryHtml(j, "verif");
     });
     keepOpen("#vlist", h);
+    renderPager(rows.length, S.pgV, pages, "v");
   }
   /* ganti isi daftar tanpa menghapus teks catatan yang sedang diketik */
   function keepOpen(sel, html) {
@@ -1957,6 +2008,17 @@
         b1 = mr[1];
       }
       setListRange(a1, b1);
+    } else if (a === "pg") {
+      const v = t.dataset.k === "v";
+      if (v) {
+        S.pgV = +t.dataset.p;
+        renderVerif();
+      } else {
+        S.pgR = +t.dataset.p;
+        renderRiwayat();
+      }
+      const L = $(v ? "#vlist" : "#list");
+      if (L && L.scrollIntoView) L.scrollIntoView({ block: "start" });
     } else if (a === "del") {
       const id = t.dataset.id;
       S.delId = id;
@@ -2043,7 +2105,7 @@
   });
   function setListRange(a, b) {
     S.rng = { a: a, b: b };
-    ["f", "v", "x"].forEach((p) => {
+    ["v", "x"].forEach((p) => {
       $("#" + p + "From").value = a;
       $("#" + p + "To").value = b;
     });
@@ -2060,13 +2122,25 @@
       toast("Tanggal awal harus sebelum tanggal akhir.");
       return;
     }
-    if (daysBetween(a, b).length > 93) {
+    const n = daysBetween(a, b).length;
+    if (p === "x") {
+      if (n > 366) {
+        toast("Rentang maksimal 1 tahun.");
+        return;
+      }
+      if (n > 93) {
+        toast(
+          "Rentang lebih dari 93 hari: daftar tidak diperbarui, tetapi Unduh Excel memakai seluruh rentang.",
+        );
+        return;
+      }
+    } else if (n > 93) {
       toast("Rentang daftar maksimal 93 hari.");
       return;
     }
     setListRange(a, b);
   }
-  ["f", "v"].forEach((p) => {
+  ["x", "v"].forEach((p) => {
     $("#" + p + "From").addEventListener("change", () => onListRange(p));
     $("#" + p + "To").addEventListener("change", () => onListRange(p));
   });
@@ -2076,7 +2150,7 @@
   });
   $("#lHK").addEventListener("input", () => renderLap());
   $("#mHK").addEventListener("input", () => renderLapMember());
-  $("#fSid").addEventListener("change", renderRiwayat);
+  $("#xSid").addEventListener("change", renderRiwayat);
   $("#fSt").addEventListener("change", renderRiwayat);
   $("#vSt").addEventListener("change", renderVerif);
   $("#vWho").addEventListener("change", (e) => lsSet("jt.who", e.target.value));
@@ -2612,9 +2686,8 @@
     document.querySelector('.tabs [data-t="riwayat"]').hidden =
       S.role !== "admin";
     document.querySelector('.tabs [data-t="isi"]').hidden = S.role === "admin";
-    fillSidSelect($("#fSid"), S.sid || "all", "Semua pegawai");
     fillSidSelect($("#xSid"), S.sid || "all", "Semua pegawai");
-    $("#fSid").disabled = $("#xSid").disabled = S.role === "member";
+    $("#xSid").disabled = S.role === "member";
     if (S.role === "member") {
       S.tgl = ymd(new Date());
       S.month = S.tgl.slice(0, 7);
@@ -2824,7 +2897,7 @@
     {
       const r = monthRange(S.month);
       S.rng = { a: r[0], b: r[1] };
-      ["f", "v", "x"].forEach((p) => {
+      ["v", "x"].forEach((p) => {
         $("#" + p + "From").value = r[0];
         $("#" + p + "To").value = r[1];
       });
@@ -2833,7 +2906,6 @@
     $("#lNama").innerHTML =
       '<option value="">Pilih nama Anda</option>' + staffOpts();
     addEyes();
-    fillSidSelect($("#fSid"), "all", "Semua pegawai");
     fillSidSelect($("#xSid"), "all", "Semua pegawai");
     $("#tgl").value = S.tgl;
     const w = lsGet("jt.who");
