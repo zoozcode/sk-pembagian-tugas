@@ -72,6 +72,7 @@
     const a = m.split("-");
     return MON[+a[1] - 1] + " " + a[0];
   };
+  const jabP = (s) => s.jab + (s.pos ? " · Penempatan: " + s.pos : "");
   const fmtNip = (n) =>
     n ? n.replace(/^(\d{8})(\d{6})(\d)(\d{3})$/, "$1 $2 $3 $4") : "-";
   const ST = {
@@ -81,7 +82,7 @@
     ditolak: "Perlu perbaikan",
   };
 
-  /* Data pegawai dari lampiran SK 800/035/2026 */
+  /* Data pegawai dari lampiran SK 800/050/2026 (rev 01) */
   const STAFF = [
     {
       id: "s01",
@@ -92,7 +93,7 @@
         "Koordinator dan Administrasi Kepegawaian",
         "Admin Presensi",
         "Pengelolaan E-Kinerja",
-        "Penanggung Jawab Aula 2 dan Kendaraan Dinas",
+        "Penanggung Jawab Kendaraan Dinas",
       ],
     },
     {
@@ -132,12 +133,12 @@
       id: "s05",
       nama: "Nur Rohman",
       nip: "197412012009011002",
+      pos: "ADM",
       jab: "Operator Layanan Operasional",
       jobs: [
-        "Toolman APPL",
-        "Mempersiapkan alat bahan praktik Kons. Keahlian APPL",
-        "Inventarisasi dan pemeliharaan barang di Kons. Keahlian APPL",
-        "Kebersihan dan keamanan Lingkungan APPL",
+        "Kebersihan R. Kepala Sekolah, Kantor dan R. Quase",
+        "Penanggung Jawab Aula 1 dan Aula 2",
+        "Kebersihan Masjid dan Taman sekitar Kantor",
       ],
     },
     {
@@ -148,7 +149,6 @@
       jobs: [
         "Administrasi Perkantoran Bidang Sarana Prasarana dan Takola",
         "Pengurus Barang dan Inventaris",
-        "Penanggung Jawab Aula 1",
         "Kebersihan Lingkungan",
       ],
     },
@@ -166,12 +166,13 @@
       id: "s08",
       nama: "Eko Suprihatin, S.Pi",
       nip: "198510012025211057",
+      pos: "APPL",
       jab: "Penata Layanan Operasional",
       jobs: [
-        "Toolman TKJ",
-        "Menyiapkan alat bahan praktik di Kons. Keahlian TKJ",
-        "Inventarisasi dan pemeliharaan barang Kons. Keahlian TKJ",
-        "Kebersihan Lingkungan",
+        "Toolman APPL",
+        "Mempersiapkan alat bahan praktik Kons. Keahlian APPL",
+        "Inventarisasi dan pemeliharaan barang Kons. Keahlian APPL",
+        "Kebersihan dan keamanan Lingkungan APPL",
       ],
     },
     {
@@ -202,12 +203,13 @@
       id: "s11",
       nama: "Eko Sulistiyono",
       nip: "198705162025211069",
+      pos: "NKPI",
       jab: "Operator Layanan Operasional",
       jobs: [
-        "Toolman TKP",
-        "Mempersiapkan alat bahan praktik Kons. Keahlian TKP",
-        "Inventarisasi dan pemeliharaan barang Kons. Keahlian TKP",
-        "Kebersihan lingkungan dan R. TKP",
+        "Toolman NKPI",
+        "Mempersiapkan alat bahan praktik Kons. Keahlian NKPI",
+        "Inventarisasi dan pemeliharaan barang Kons. Keahlian NKPI",
+        "Kebersihan Lingkungan NKPI",
         "Kebersihan Mangrove TKP",
       ],
     },
@@ -215,24 +217,27 @@
       id: "s12",
       nama: "Sukoco",
       nip: "198602092025211048",
+      pos: "Aset",
       jab: "Operator Layanan Operasional",
       jobs: [
-        "Toolman NKPI",
-        "Menyiapkan alat bahan praktik Kons. Keahlian NKPI",
-        "Inventarisasi dan pemeliharaan barang Kons. Keahlian NKPI",
-        "Kebersihan Lingkungan NKPI",
-        "Kebersihan Mangrove NKPI",
+        "Administrasi Perkantoran Bidang Sarana Prasarana dan Takola",
+        "Pengurus Barang dan Inventaris",
+        "Membantu Kebersihan Masjid",
+        "Kebersihan Lingkungan",
+        "Kebersihan Mangrove",
       ],
     },
     {
       id: "s13",
       nama: "Muhlisin",
       nip: "198402172025211044",
+      pos: "TKP",
       jab: "Operator Layanan Operasional",
       jobs: [
-        "Pengelola UP Air Minum Quase",
-        "Pemasaran dan Pendistribusian Air Minum Quase",
-        "Kebersihan Ruang Quase dan Lingkungan APHP",
+        "Toolman TKP",
+        "Mempersiapkan alat bahan praktik Kons. Keahlian TKP",
+        "Inventarisasi dan pemeliharaan barang Kons. Keahlian TKP",
+        "Kebersihan Lingkungan dan R. TKP",
         "Kebersihan Mangrove",
       ],
     },
@@ -246,6 +251,18 @@
         "Mempersiapkan alat bahan praktik Kons. Keahlian TKR",
         "Inventarisasi dan pemeliharaan barang Kons. Keahlian TKR",
         "Kebersihan Lingkungan dan Ruang TKR",
+      ],
+    },
+    {
+      id: "s29",
+      nama: "Alfan Cahya Sanjaya",
+      nip: "199305112025211062",
+      pos: "APHP",
+      jab: "Operator Layanan Operasional",
+      jobs: [
+        "Pengelola UP Air Minum Quase",
+        "Pemasaran dan Pendistribusian Air Minum Quase",
+        "Kebersihan Ruang Quase dan Lingkungan APHP",
       ],
     },
     {
@@ -269,6 +286,19 @@
         "Administrasi Persuratan",
         "Administrasi Bidang Pendidikan (Kurikulum)",
         "Melayani pengambilan ijazah dan legalisir siswa",
+        "Kebersihan Lingkungan",
+      ],
+    },
+    {
+      id: "s30",
+      nama: "Ria Liani Dewi, S.Kom",
+      nip: "199708312025212079",
+      pos: "TKJ",
+      jab: "Penata Layanan Operasional",
+      jobs: [
+        "Toolman TKJ",
+        "Menyiapkan alat bahan praktik Kons. Keahlian TKJ",
+        "Inventarisasi dan pemeliharaan barang Kons. Keahlian TKJ",
         "Kebersihan Lingkungan",
       ],
     },
@@ -370,6 +400,7 @@
       nip: "",
       out: true,
       grp: "Outsourcing - Kebersihan",
+      pos: "Area Mas Afif",
       jab: "Tenaga Outsourcing (Kebersihan)",
       jobs: ["Kebersihan Lingkungan", "Kebersihan Ruang dan Fasilitas"],
     },
@@ -391,6 +422,14 @@
 
   /* Daftar kegiatan bawaan per job */
   const RULES = [
+    [
+      /masjid/i,
+      [
+        "Menyapu dan mengepel masjid",
+        "Merapikan perlengkapan ibadah",
+        "Mengumpulkan dan membuang sampah",
+      ],
+    ],
     [
       /^keamanan dan penjagaan/i,
       [
@@ -468,12 +507,19 @@
       ],
     ],
     [
-      /aula|kendaraan/i,
+      /aula/i,
       [
         "Memeriksa kondisi dan kebersihan aula",
         "Menyiapkan aula untuk kegiatan",
+        "Merapikan aula setelah kegiatan",
+      ],
+    ],
+    [
+      /kendaraan/i,
+      [
         "Memeriksa kendaraan dinas (BBM, kebersihan, kondisi)",
         "Mencatat penggunaan kendaraan dinas",
+        "Mengatur jadwal pemakaian kendaraan dinas",
       ],
     ],
     [
@@ -822,7 +868,7 @@
     )
       .map(
         (s) =>
-          `<button type="button" class="nm" data-a="pick" data-id="${s.id}" aria-pressed="${S.sid === s.id}"><b>${esc(s.nama)}</b><span>${esc(s.jab)}</span>${s.nip ? `<span class="nip">NIP ${fmtNip(s.nip)}</span>` : ""}</button>`,
+          `<button type="button" class="nm" data-a="pick" data-id="${s.id}" aria-pressed="${S.sid === s.id}"><b>${esc(s.nama)}</b><span>${esc(s.jab)}</span>${s.nip ? `<span class="nip">NIP ${fmtNip(s.nip)}</span>` : ""}${s.pos ? `<span class="nip">Penempatan: ${esc(s.pos)}</span>` : ""}</button>`,
       )
       .join("");
   }
@@ -1614,7 +1660,7 @@
           midDate(j.tgl),
           p.nama,
           fmtNip(p.nip),
-          p.jab,
+          jabP(p),
           (j.jobs || []).map((o) => o.job).join("\n"),
           keg,
           j.catatan || "",
@@ -1675,7 +1721,7 @@
       ws.mergeCells("C" + (r + 1) + ":E" + (r + 1));
       ws.mergeCells("H" + (r + 1) + ":I" + (r + 1));
       put("C", r + 1, "Kepala SMKN 1 Jepara");
-      put("H", r + 1, "");
+      put("H", r + 1, "Plt. Kasubag. TU");
       ws.mergeCells("C" + (r + 5) + ":E" + (r + 5));
       ws.mergeCells("H" + (r + 5) + ":I" + (r + 5));
       ws.mergeCells("C" + (r + 6) + ":E" + (r + 6));
@@ -1737,7 +1783,7 @@
             i + 1,
             s.nama,
             fmtNip(s.nip),
-            s.jab,
+            jabP(s),
             t.h,
             t.disetujui,
             t.menunggu,
@@ -1752,6 +1798,7 @@
               right: { style: "thin" },
             };
             if (k >= 4 || k === 0) c.alignment = { horizontal: "center" };
+            else if (k === 3) c.alignment = { wrapText: true, vertical: "top" };
           });
         });
       }
@@ -2304,7 +2351,7 @@
         };
         [
           [0, "Mengetahui,", "Jepara, " + midDate(TODAY)],
-          [1, "Kepala SMKN 1 Jepara", ""],
+          [1, "Kepala SMKN 1 Jepara", "Plt. Kasubag. TU"],
           [5, "Dr. SUGIYANTO, S.Pd., M.Pd.", "POPI LIA MARISA, S.Kom"],
           [6, "NIP. 19700510 199702 1 003", "NIP. 19830705 200902 2 008"],
         ].forEach((x) => {
@@ -2355,7 +2402,7 @@
           i + 1,
           x.s.nama,
           fmtNip(x.s.nip),
-          x.s.jab,
+          jabP(x.s),
           x.c.h,
           x.c.disetujui,
           x.c.menunggu,
@@ -2369,6 +2416,7 @@
           c.font = { name: "Calibri", size: 11 };
           c.alignment = {
             vertical: "middle",
+            wrapText: true,
             horizontal: k >= 4 || k === 0 ? "center" : "left",
           };
           if (k === 9) c.numFmt = "0%";
